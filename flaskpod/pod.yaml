@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Pod
+metadata:
+        name:krum-flask-app
+labels:
+        app: flask
+        spec:
+                containers:
+                        - name: krum-flask
+                          image: 184421495958.dkr.ecr.us-east-2.amazonaws.com/krum-flask:latest
