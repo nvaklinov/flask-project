@@ -1,0 +1,47 @@
+ * Serving Flask app "web" (lazy loading)
+ * Environment: production
+   WARNING: This is a development server. Do not use it in a production deployment.
+   Use a production WSGI server instead.
+ * Debug mode: on
+ * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 611-656-844
+ * Serving Flask app "web" (lazy loading)
+ * Environment: production
+   WARNING: This is a development server. Do not use it in a production deployment.
+   Use a production WSGI server instead.
+ * Debug mode: on
+ * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 611-656-844
+130.204.9.30 - - [03/Apr/2020 13:14:18] "[37mGET / HTTP/1.1[0m" 200 -
+130.204.9.30 - - [03/Apr/2020 13:14:18] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+66.249.93.17 - - [03/Apr/2020 17:21:19] "[37mGET / HTTP/1.1[0m" 200 -
+66.249.93.16 - - [03/Apr/2020 17:21:19] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+209.17.96.98 - - [03/Apr/2020 21:17:46] "[37mGET / HTTP/1.0[0m" 200 -
+209.17.97.122 - - [03/Apr/2020 23:40:01] "[37mGET / HTTP/1.1[0m" 200 -
+196.52.43.95 - - [04/Apr/2020 00:40:36] "[37mGET / HTTP/1.0[0m" 200 -
+130.204.9.30 - - [04/Apr/2020 11:02:26] "[37mGET / HTTP/1.1[0m" 200 -
+130.204.9.30 - - [04/Apr/2020 11:03:56] "[37mGET /picture HTTP/1.1[0m" 200 -
+130.204.9.30 - - [04/Apr/2020 11:03:57] "[37mGET /static/pic.png HTTP/1.1[0m" 200 -
+130.204.9.30 - - [04/Apr/2020 11:05:55] "[37mGET /picture HTTP/1.1[0m" 200 -
+130.204.9.30 - - [04/Apr/2020 11:05:57] "[37mGET /picture HTTP/1.1[0m" 200 -
+130.204.9.30 - - [04/Apr/2020 11:05:58] "[37mGET /picture HTTP/1.1[0m" 200 -
+130.204.9.30 - - [04/Apr/2020 11:06:02] "[37mGET / HTTP/1.1[0m" 200 -
+Traceback (most recent call last):
+  File "/usr/lib64/python2.7/SocketServer.py", line 599, in process_request_thread
+    self.finish_request(request, client_address)
+  File "/usr/lib64/python2.7/SocketServer.py", line 334, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+  File "/usr/lib64/python2.7/SocketServer.py", line 655, in __init__
+    self.handle()
+  File "/usr/lib/python2.7/site-packages/werkzeug/serving.py", line 345, in handle
+    BaseHTTPRequestHandler.handle(self)
+  File "/usr/lib64/python2.7/BaseHTTPServer.py", line 340, in handle
+    self.handle_one_request()
+  File "/usr/lib/python2.7/site-packages/werkzeug/serving.py", line 375, in handle_one_request
+    self.raw_requestline = self.rfile.readline()
+IOError: [Errno 104] Connection reset by peer
+223.71.167.163 - - [04/Apr/2020 14:19:32] "[37mGET / HTTP/1.1[0m" 200 -
