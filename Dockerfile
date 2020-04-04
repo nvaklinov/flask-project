@@ -16,4 +16,4 @@ RUN chmod +x /root/script.sh
 WORKDIR /root/
 expose 2000
 
-CMD ["sh", "-c"," ./script.sh"]
+CMD ["bash", "-c"," ./script.sh"]
