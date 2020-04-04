@@ -7,4 +7,4 @@ labels:
         spec:
                 containers:
                         - name: krum-flask
-                          image: 184421495958.dkr.ecr.us-east-2.amazonaws.com/krum-flask:latest
+                          image: 184421495958.dkr.ecr.us-east-2.amazonaws.com/krum-flask:v2
