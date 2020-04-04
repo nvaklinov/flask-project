@@ -1,0 +1,26 @@
+#!/bin/bash
+
+REPO="184421495958.dkr.ecr.us-east-2.amazonaws.com/krum-flask"
+
+pip install -r requirements.txt && timeout 20 python web.py
+status=$?
+if [[ $status -eq 124 ]]
+then echo "SUCCESS"
+else echo "FAILED" %% exit 1
+fi
+
+docker build -t "$REPO:latest" .
+
+$(aws ecr  get-login --region us-east-2 --no-include-email)
+
+docker push $REPO:latest
+
+cp /var/lib/jenkins/podscript/pod.yaml .
+cp /var/lib/jenkins/podscript/script.sh /root/script.sh
+
+kubectl create -f pod.yaml; stat=$?
+
+if [[ $stat != 0 ]]
+then echo "error"
+else echo "success"
+fi
