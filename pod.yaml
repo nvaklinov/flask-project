@@ -6,5 +6,5 @@ metadata:
     app: flask
 spec:
   containers:
-  - name: myapp-container
+  - name: flask
     image: 649543754069.dkr.ecr.us-east-2.amazonaws.com/flask-repo:lates
