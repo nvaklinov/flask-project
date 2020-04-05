@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: myflask-pod
+  labels:
+    app: myflask
+spec:
+  containers:
+  - name: myflask-container
+    image: 252803719446.dkr.ecr.us-east-2.amazonaws.com/test-repo:latest
