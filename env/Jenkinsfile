@@ -13,6 +13,7 @@ pipeline {
         stage('Build') {
             steps {
 		sh "pwd && ls -al"
+		sh "echo "env folder" && ls -al env/"
                 sh "env/build.sh"
             }
         }
