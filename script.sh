@@ -1,3 +1,3 @@
 #!/bin/bash
 
-pip install -r requirements.txt && python web.py
+pip install -r requirements.txt &&  python web.py
