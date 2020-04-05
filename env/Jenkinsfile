@@ -17,7 +17,7 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                bash -x ./deploy.sh
+                bash -x /var/lib/jenkins/deploy.sh
             }
         }
     }
