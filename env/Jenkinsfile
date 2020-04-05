@@ -15,10 +15,5 @@ pipeline {
                 bash -x /var/lib/jenkins/build.sh
             }
         }
-        stage('Deploy') {
-            steps {
-                bash -x /var/lib/jenkins/deploy.sh
-            }
-        }
     }
 }
