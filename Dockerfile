@@ -6,6 +6,6 @@ RUN apt-get update -y && apt-get upgrade -y && apt-get install -y python && apt-
 
 WORKDIR /root/
 
-expose 3000
+expose 5000
 
 CMD ["sh", "-c" , " ./script.sh"]
