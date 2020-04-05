@@ -12,12 +12,12 @@ pipeline {
         }
         stage('Build') {
             steps {
-                sh "/var/lib/jenkins/scripts/build.sh"
+                sh "env/build.sh"
             }
         }
 	stage('deploy') {
             steps {
-                sh "/var/lib/jenkins/scripts/deploy.sh"
+                sh "env/deploy.sh"
             }
         }
     }
