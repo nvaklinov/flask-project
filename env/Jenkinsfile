@@ -7,7 +7,7 @@ pipeline {
     stages {
         stage('Pull source') {
             steps {
-                git branch: 'origin/feature/devOps_lyubo_jenkins', credentialsId: 'lyubo', url: 'git@github.com:nvaklinov/flask-project.git'
+                git branch: 'feature/devOps_lyubo_jenkins', credentialsId: 'lyubo', url: 'git@github.com:nvaklinov/flask-project.git'
             }
         }
         stage('Build') {
