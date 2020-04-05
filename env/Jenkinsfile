@@ -12,7 +12,7 @@ pipeline {
         }
         stage('Build') {
             steps {
-                sh "env/docker build -t ${env.REPO}:latest"
+                 "env/docker build -t ${env.REPO}:latest"
             }
         }
         stage('Deploy') {
