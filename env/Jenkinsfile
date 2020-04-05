@@ -12,12 +12,12 @@ pipeline {
         }
         stage('Build') {
             steps {
-		bash -x build.sh
+                bash - x build.sh
             }
         }
         stage('Deploy') {
             steps {
-                bash -x deploy.sh
+                bash - x deploy.sh
             }
         }
     }
