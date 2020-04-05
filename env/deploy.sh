@@ -1,4 +1,4 @@
-!#/bin/bash
+#!/bin/bash
 
 $(aws ecr get-login --region us-east-2 --no-include-email)
 
