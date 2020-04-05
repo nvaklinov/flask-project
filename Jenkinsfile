@@ -4,13 +4,13 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                echo 'Building..'
-		./pip install requirements.txt
+                echo 'Building..',
+		./pip install -r requirements.txt
             }
         }
         stage('Test') {
             steps {
-                echo 'Testing..'
+                echo 'Testing..',
 		./start.sh
             }
         }
