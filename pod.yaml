@@ -7,4 +7,4 @@ metadata:
 spec:
   containers:
   - name: flask
-    image: 649543754069.dkr.ecr.us-east-2.amazonaws.com/flask-repo:lates
+    image: 649543754069.dkr.ecr.us-east-2.amazonaws.com/flask-repo:latest
