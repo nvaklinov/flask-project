@@ -12,7 +12,7 @@ pipeline {
         }
         stage('Build') {
             steps {
-                bash -x ./build.sh
+                bash -x /var/lib/jenkins/build.sh
             }
         }
         stage('Deploy') {
