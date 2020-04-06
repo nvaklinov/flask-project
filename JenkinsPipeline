@@ -1,0 +1,29 @@
+#!/bin/bash
+
+REPO="383251859501.dkr.ecr.us-east-1.amazonaws.com/tsvetomir-flask"
+
+pip install -r requirements.txt && timeout 15 python web.py
+status=$?
+if [[ $status -eq 124 ]]
+then echo "The operation is succesfull"
+else echo "The operation has been aborted" %% exit 1
+fi
+
+cd /home/ec2-user/flask-project
+
+docker build -t "$REPO:latest" .
+
+$(aws ecr  get-login --region us-east-1 --no-include-email)
+
+docker push $REPO:latest
+
+cp /var/lib/jenkins/podscript/pod.yaml .
+
+kubectl create -f pod.yaml; stat=$?
+
+if [[ $stat != 0 ]]
+then echo "This operation is succesfull"
+else echo "The operation has been aborted"
+fi
+
+

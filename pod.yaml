@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: tsvetomir-flask-app
+  labels:
+    app: flask
+spec:
+  containers:
+  - name: tsvetomir-flask
+    image: 383251859501.dkr.ecr.us-east-1.amazonaws.com/tsvetomir-flask:latest
+    ports:
+    - containerPort: 5000
+  imagePullPolicy: IfNotPresent
+
