@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: flask-app
+  labels:
+    app: flask
+spec:
+  containers:
+  - name: flask
+    image: 533391766968.dkr.ecr.us-east-1.amazonaws.com/zlatin-flask:latest
