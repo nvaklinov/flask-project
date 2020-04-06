@@ -1,4 +1,4 @@
-# Flask-App Test Pipepline
+# Flask-App Test Pipeline
 
 [![N|Solid](https://pragmatic.bg/wp-content/uploads/2018/03/pragmatic_logo-300x139.png)](https://pragmatic.bg)
 
