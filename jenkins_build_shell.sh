@@ -15,3 +15,12 @@ cd /home/ec2-user/Github/flask-project
 docker build -t "$REPO:latest" .
 $(aws ecr get-login --region eu-central-1 --no-include-email)
 docker push $REPO:latest
+
+kubectl create -f pod.yaml; stat=$?
+
+echo "Status:" $stat
+
+if [[ $stat != 0 ]]
+then echo "Error" && exit $stat
+else echo "Success"
+fi

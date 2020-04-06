@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: veizov-flask-app
+  labels:
+    app: flask
+spec:
+  containers:
+  - name: veizov-flask
+    image: 195245889165.dkr.ecr.eu-central-1.amazonaws.com/devops:latest
+    ports:
+    - containerPort: 5000
