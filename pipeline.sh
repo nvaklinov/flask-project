@@ -19,6 +19,7 @@ docker push $REPO:latest
 cp /var/lib/jenkins/scripts/pod.yaml .
 cp /var/lib/jenkins/scripts/script.sh /root/script.sh
 
+kubectl delete -f pod.yaml
 kubectl create -f pod.yaml; stat=$?
 
 if [[ $stat !=0 ]]
