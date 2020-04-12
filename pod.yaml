@@ -1,12 +1,12 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: flask-app
+  name: shuklev-flask
   labels:
-    app: flask
+    app: shuklev-flask
 spec:
   containers:
-  - name: flask
+  - name: shuklev-flask
     image: 152410580623.dkr.ecr.us-east-1.amazonaws.com/shuklev-flask-repo:latest
     ports:
     - containerPort: 5000
