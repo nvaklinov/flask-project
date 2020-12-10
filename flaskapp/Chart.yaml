@@ -1,0 +1,5 @@
+apiVersion: v2
+name: flaskapp
+description: flaskapp helm chart
+version: 0.1.0
+appVersion: 1.16.0

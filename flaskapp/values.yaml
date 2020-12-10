@@ -1,0 +1,9 @@
+deployment:
+        name: flaskapp
+        image: 778771330850.dkr.ecr.eu-central-1.amazonaws.com/flaskapp
+        tag: latest
+        replicas: 1
+        port: 5000
+
+service:
+        name: flaskapp-lb-svc
