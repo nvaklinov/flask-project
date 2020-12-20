@@ -13,7 +13,7 @@ pipeline {
      },
    
           "Build failed": {
-     slackSend failOnError: true, message: "Build Started: ${env.JOB_NAME} ${env.BUILD_NUMBER}"
+     slackSend failOnError: true, message: "Build stopped due to Error : ${env.JOB_NAME} ${env.BUILD_NUMBER}"
      }
    )
   }
