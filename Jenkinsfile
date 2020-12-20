@@ -7,13 +7,17 @@ pipeline {
     stage("build") {
         
         steps {
+          paralel("Build started":  {
 
        slackSend message: "Build Started - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
-     }
-   }
-    stage("failed") {
+     },
+   
+          "Build failed": {
      slackSend failOnError: true, message: "Build Started: ${env.JOB_NAME} ${env.BUILD_NUMBER}"
-    }
+     }
+   )
+  }
+}
     stage("Test stage") {
       steps {
         dir(srcDir){
