@@ -30,8 +30,8 @@ pipeline {
             }
         }
     
-
-    agent {
+    stage("build"){
+     agent {
     // Equivalent to "docker build -f Dockerfile.build --build-arg version=1.0.2 ./build/
       dockerfile {
         filename 'Dockerfile.build'
@@ -39,8 +39,9 @@ pipeline {
         label 'final_project2'
         additionalBuildArgs  '--build-arg version=$GIT_COMMIT'
         args '-v /tmp:/tmp'
-        }
-      }    
+         }
+       }
+     }    
    }
 }
 
