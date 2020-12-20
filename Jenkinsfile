@@ -11,5 +11,19 @@ node ('master'){
         sh "${env.WORKSPACE}/../${env.JOB_NAME}@script/build.sh"
         }
       }
+    post {
+      always {
+        cleanWs()
+      }
+      failure {
+          slackSend baseUrl: 'https://hooks.slack.com/services/',
+          channel: '#automate-aws-ec2-with-terraform',
+          iconEmoji: '',
+          message: "CI failing for - #${env.BRANCH_NAME} - ${currentBuild.currentResult}  (<${env.BUILD_URL}|Open>)",
+          teamDomain: 'final_project2',
+          tokenCredentialId: 'xoxb-1588735815395-1589053700306-Uz7y7NiD1DQ5daBz2AnIQDeX',
+          username: ''
+        }
+    }
     }
 }
