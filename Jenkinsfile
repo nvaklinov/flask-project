@@ -5,8 +5,7 @@ node ('master'){
     stage('Test stage') {
     // test block
     script {
-        sh "chmod +x -R ${env.WORKSPACE}"
-        sh "./build.sh"
+        sh('cd relativePathToFolder && chmod +x build.sh && ./build.sh')
         }
     }
 }
