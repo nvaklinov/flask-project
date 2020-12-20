@@ -19,7 +19,7 @@ pipeline {
   }
 }
 
-    stage('Build') {
+    stage('shell_cmd') {
             steps {
                 sh 'aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 637927395305.dkr.ecr.us-east-1.amazonaws.com'
                 sh '''
@@ -30,7 +30,7 @@ pipeline {
             }
         }
     
-    stage("build"){
+    stage("docker"){
      agent {
     // Equivalent to "docker build -f Dockerfile.build --build-arg version=1.0.2 ./build/
       dockerfile {
