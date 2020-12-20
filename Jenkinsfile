@@ -18,14 +18,30 @@ pipeline {
    )
   }
 }
-    stage("Test stage") {
-      steps {
-        dir(srcDir){
-        sh 'cdr=$(pwd); $cdr/jenkins.sh "build.sh"'
-       }
-      }
+
+    stage('Build') {
+            steps {
+                sh 'aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 637927395305.dkr.ecr.us-east-1.amazonaws.com'
+                sh '''
+                    docker build -f Dockerfile -t "final_project2:$GIT_COMMIT"
+                    docker tag "final_project2:$GIT_COMMIT" 637927395305.dkr.ecr.us-east-1.amazonaws.com/final_project2:latest
+                    docker push 637927395305.dkr.ecr.us-east-1.amazonaws.com/final_project2:latest
+                '''
+            }
+        }
     }
-   }
- }
+}
+    agent {
+    // Equivalent to "docker build -f Dockerfile.build --build-arg version=1.0.2 ./build/
+      dockerfile {
+        filename 'Dockerfile.build'
+        dir 'build'
+        label 'final_project2'
+        additionalBuildArgs  '--build-arg version=$GIT_COMMIT'
+        args '-v /tmp:/tmp'
+    }
+}    
+       }
+}
 
 
