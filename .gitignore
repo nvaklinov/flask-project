@@ -2,4 +2,3 @@ main-key.pem
 .terraform*
 .tfplan
 .git
-/*
