@@ -13,8 +13,8 @@ pipeline{
                 "docker push 637927395305.dkr.ecr.us-east-1.amazonaws.com/final_project2:latest"
                  '''
             }
-         }
-      }
+      
+      
             post{
                 always{
                     echo "Docker login in ECR; build from Dockerfile, docker tag and docker push to 637927395305.dkr.ecr.us-east-1.amazonaws.com/final_project2"
@@ -27,7 +27,8 @@ pipeline{
                     slackSend message: "Stage A failure - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
                 }
             }
-        
+      }
+}  
     
     post{
         always{
