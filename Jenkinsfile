@@ -6,17 +6,12 @@ pipeline{
         stage("A"){
             steps{
                 echo "========executing A========"
-                sh "aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 637927395305.dkr.ecr.us-east-1.amazonaws.com"
-
-                 }
-                }
-        stage("B"){
-            steps{
-
-                sh "docker build -t final_project2 ."
-                sh "docker tag final_project2:latest" 637927395305.dkr.ecr.us-east-1.amazonaws.com/final_project2:latest"
-                sh "docker push 637927395305.dkr.ecr.us-east-1.amazonaws.com/final_project2:latest"
-                 
+                sh '''#!/bin/bash
+                "aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 637927395305.dkr.ecr.us-east-1.amazonaws.com"
+                "docker build -t final_project2 ."
+                "docker tag final_project2:latest" 637927395305.dkr.ecr.us-east-1.amazonaws.com/final_project2:latest"
+                "docker push 637927395305.dkr.ecr.us-east-1.amazonaws.com/final_project2:latest"
+                 '''
             }
          }
       }
