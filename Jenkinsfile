@@ -1,5 +1,7 @@
 pipeline{
-   agent any {
+    agent{
+        label "master"
+    }
     stages{
         stage("A"){
             steps{
@@ -38,5 +40,5 @@ pipeline{
             slackSend message: "Pipeline failure - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
         }
     }
-  }
 }
+
