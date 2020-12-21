@@ -22,7 +22,7 @@ pipeline{
                 }
                 failure{
                     echo "========A execution failed========"
-                    slackSend failOnError: true, message: "Stage A stopped due to Error : ${env.JOB_NAME} ${env.BUILD_NUMBER}"
+                    slackSend message: "Stage A failure - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
                 }
             }
         }
@@ -36,7 +36,8 @@ pipeline{
             echo "========pipeline executed successfully ========"
         }
         failure{
-           slackSend failOnError: true, message: "Pipeline stopped due to Error : ${env.JOB_NAME} ${env.BUILD_NUMBER}"
+            echo "========pipeline failed ========"
+            slackSend message: "Pipeline failure - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
         }
     }
 }
