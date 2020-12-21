@@ -18,9 +18,9 @@ pipeline{
                      docker.build('$IMAGE')
                  }
                 //Get some code from Github repository
-            }
-        }
-      }
+                 }
+        
+      
             
 
             post{
@@ -35,7 +35,8 @@ pipeline{
                     slackSend message: "Stage A failure - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
                 }
             }
-        
+        }
+}
  
     post{
         always{
