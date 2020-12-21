@@ -7,7 +7,7 @@ pipeline{
             steps{
                 echo "========executing A========"
                 sh '''
-                 "aws ecr get-login-password --region us-east-1 | docker login -u AWS -p $(aws ecr get-login-password) https://$(aws sts get-caller-identity --query 'Account' --output text).dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com"
+                 "aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 637927395305.dkr.ecr.us-east-1.amazonaws.com"
                  "docker build -f Dockerfile -t "final_project2:$GIT_COMMIT""
                  "docker tag final_project2:latest 637927395305.dkr.ecr.us-east-1.amazonaws.com/final_project2:$GIT_COMMIT"
                  "docker push 637927395305.dkr.ecr.us-east-1.amazonaws.com/final_project2:$GIT_COMMIT"
