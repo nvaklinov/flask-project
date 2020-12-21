@@ -2,27 +2,17 @@ pipeline{
     agent{
         label "master"
     }
-    environment
-    {
-        VERSION="$GIT_COMMIT"
-        PROJECT='final_project2'
-        IMAGE="$PROJECT:$VERSION"
-        ECRURL="https://637927395305.dkr.ecr.us-east-1.amazonaws.com/final_project2"
-        ECRCRED='ecr:us-east-1:awscredentials'
-    }
-
-      stages{
-        stage('Image build'){
+    stages{
+        stage("A"){
             steps{
-                 script {
-                     docker.build('$IMAGE')
-                 }
-                //Get some code from Github repository
+                echo "========executing A========"
+                sh '''
+                 "aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 637927395305.dkr.ecr.us-east-1.amazonaws.com"
+                 "docker build -f Dockerfile -t "final_project2:$GIT_COMMIT""
+                 "docker tag final_project2:latest 637927395305.dkr.ecr.us-east-1.amazonaws.com/final_project2:$GIT_COMMIT"
+                 "docker push 637927395305.dkr.ecr.us-east-1.amazonaws.com/final_project2:$GIT_COMMIT"
+                 '''
             }
-        }
-      }
-            
-
             post{
                 always{
                     echo "Docker login in ECR; build from Dockerfile, docker tag and docker push to 637927395305.dkr.ecr.us-east-1.amazonaws.com/final_project2"
@@ -35,8 +25,8 @@ pipeline{
                     slackSend message: "Stage A failure - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
                 }
             }
-        
- 
+        }
+    }
     post{
         always{
             echo "Pipeline started for ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
@@ -51,5 +41,4 @@ pipeline{
         }
     }
 }
-
 
