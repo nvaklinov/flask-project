@@ -36,7 +36,7 @@ pipeline{
             echo "========pipeline executed successfully ========"
         }
         failure{
-            echo "slackSend failOnError: true, message: "Pipeline stopped due to Error : ${env.JOB_NAME} ${env.BUILD_NUMBER}""
+           slackSend failOnError: true, message: "Pipeline stopped due to Error : ${env.JOB_NAME} ${env.BUILD_NUMBER}"
         }
     }
 }
