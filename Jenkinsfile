@@ -6,12 +6,14 @@ pipeline{
         stage("A"){
             steps{
                 echo "========executing A========"
-                sh "aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 637927395305.dkr.ecr.us-east-1.amazonaws.com",
-                sh "docker build -t final_project2 .",
-                sh "docker tag final_project2:latest" 637927395305.dkr.ecr.us-east-1.amazonaws.com/final_project2:latest",
+                sh "aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 637927395305.dkr.ecr.us-east-1.amazonaws.com"
+                sh "docker build -t final_project2 ."
+                sh "docker tag final_project2:latest" 637927395305.dkr.ecr.us-east-1.amazonaws.com/final_project2:latest"
                 sh "docker push 637927395305.dkr.ecr.us-east-1.amazonaws.com/final_project2:latest"
                  
             }
+         }
+      }
             post{
                 always{
                     echo "Docker login in ECR; build from Dockerfile, docker tag and docker push to 637927395305.dkr.ecr.us-east-1.amazonaws.com/final_project2"
@@ -24,8 +26,8 @@ pipeline{
                     slackSend message: "Stage A failure - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
                 }
             }
-        }
-    }
+        
+    
     post{
         always{
             echo "Pipeline started for ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
