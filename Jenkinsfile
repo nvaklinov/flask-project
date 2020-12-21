@@ -8,8 +8,8 @@ pipeline{
                 echo "========executing A========"
                 sh "aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 637927395305.dkr.ecr.us-east-1.amazonaws.com"
                 sh "docker build -t final_project2 ."
-                sh "docker tag final_project2:$GIT_COMMIT" 637927395305.dkr.ecr.us-east-1.amazonaws.com/final_project2:$GIT_COMMIT"
-                sh "docker push 637927395305.dkr.ecr.us-east-1.amazonaws.com/final_project2:$GIT_COMMIT"
+                sh "docker tag final_project2:latest" 637927395305.dkr.ecr.us-east-1.amazonaws.com/final_project2:latest"
+                sh "docker push 637927395305.dkr.ecr.us-east-1.amazonaws.com/final_project2:latest"
                  
             }
             post{
