@@ -80,7 +80,7 @@ pipeline
 
                     // Build the docker image using a Dockerfile
 
-                    docker.build("$IMAGE","examples/pipelines/TAP_docker_image_build_push_ecr")
+                    docker.build("$IMAGE")
 
                 }
 
