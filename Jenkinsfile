@@ -1,45 +1,143 @@
-pipeline{
-    agent{
-      dockerfile true
+pipeline
+
+{
+
+    options
+
+    {
+
+        buildDiscarder(logRotator(numToKeepStr: '3'))
+
     }
-    stages{
-        stage("A"){
-            agent{
-              docker-agent true
+
+    agent any
+
+    environment 
+
+    {
+
+        VERSION = 'latest'
+
+        PROJECT = 'tap_sample'
+
+        IMAGE = 'tap_sample:latest'
+
+        ECRURL = 'http://637927395305.dkr.ecr.us-east-1.amazonaws.com'
+
+        ECRCRED = 'ecr:us-east-1:tap_ecr'
+
+    }
+
+    stages
+
+    {
+
+        stage('Build preparations')
+
+        {
+
+            steps
+
+            {
+
+                script 
+
+                {
+
+                    // calculate GIT lastest commit short-hash
+
+                    gitCommitHash = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
+
+                    shortCommitHash = gitCommitHash.take(7)
+
+                    // calculate a sample version tag
+
+                    VERSION = shortCommitHash
+
+                    // set the build display name
+
+                    currentBuild.displayName = "#${BUILD_ID}-${VERSION}"
+
+                    IMAGE = "$PROJECT:$VERSION"
+
                 }
-                "docker build -f Dockerfile -t "final_project2:$GIT_COMMIT""
-                "docker push 637927395305.dkr.ecr.us-east-1.amazonaws.com/final_project2:GIT_COMMIT"
-                 '''
+
             }
-      
-      
-            post{
-                always{
-                    echo "Docker login in ECR; build from Dockerfile, docker tag and docker push to 637927395305.dkr.ecr.us-east-1.amazonaws.com/final_project2"
+
+        }
+
+        stage('Docker build')
+
+        {
+
+            steps
+
+            {
+
+                script
+
+                {
+
+                    // Build the docker image using a Dockerfile
+
+                    docker.build("$IMAGE","examples/pipelines/TAP_docker_image_build_push_ecr")
+
                 }
-                success{
-                    echo "========A executed successfully========"
-                }
-                failure{
-                    echo "========A execution failed========"
-                    slackSend message: "Stage A failure - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
-                }
+
             }
-      }
-}  
+
+        }
+
+        stage('Docker push')
+
+        {
+
+            steps
+
+            {
+
+                script
+
+                {
+
+                    // login to ECR - for now it seems that that the ECR Jenkins plugin is not performing the login as expected. I hope it will in the future.
+
+                    sh("eval \$(aws ecr get-login --no-include-email | sed 's|https://||')")
+
+                    // Push the Docker image to ECR
+
+                    docker.withRegistry(ECRURL, ECRCRED)
+
+                    {
+
+                        docker.image(IMAGE).push()
+
+                    }
+
+                }
+
+            }
+
+        }
+
+    }
+
     
 
-    post{
-        always{
-            echo "Pipeline started for ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
-            slackSend message: "Pipeline Started - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
+    post
+
+    {
+
+        always
+
+        {
+
+            // make sure that the Docker image is removed
+
+            sh "docker rmi $IMAGE | true"
+
         }
-        success{
-            echo "========pipeline executed successfully ========"
-        }
-        failure{
-            echo "========pipeline failed ========"
-            slackSend message: "Pipeline failure - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
-        }
+
     }
-}
+
+} 
