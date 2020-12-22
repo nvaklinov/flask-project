@@ -24,7 +24,7 @@ pipeline
 
         ECRURL = 'http://637927395305.dkr.ecr.us-east-1.amazonaws.com'
 
-        ECRCRED = 'ecr:us-east-1:tap_ecr'
+        ECRCRED = 'ecr:us-east-1:awscredentials'
 
     }
 
