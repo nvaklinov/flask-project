@@ -20,7 +20,7 @@ pipeline
 
         PROJECT = 'final_project2'
 
-        IMAGE = 'tap_sample:latest'
+        IMAGE = 'final_project2:$GIT_COMMIT'
 
         ECRURL = 'http://637927395305.dkr.ecr.us-east-1.amazonaws.com'
 
