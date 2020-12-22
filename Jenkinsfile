@@ -62,6 +62,43 @@ pipeline
 
                 }
 
+                post
+
+                {
+
+                always
+
+                {
+
+                // make sure that the Docker image is removed
+
+                   sh "docker rmi $IMAGE | true"
+
+                   echo "========Build preparations began========"
+                   slackSend message: "Pipeline started...: ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
+
+                }
+
+                success
+
+                {
+                   echo "========Build preparations finished========"
+                   slackSend message: "Pipeline successfully finished - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
+
+                }
+
+                failure
+
+                {
+                   echo "========Build preparations failed========"
+                   slackSend message: "Pipeline was a  failure, hope Lord Vader will not notice...: ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
+
+                }
+
+               }
+
+
+
             }
 
         }
@@ -84,6 +121,39 @@ pipeline
 
                 }
 
+                post
+
+                {
+
+                always
+
+                {
+
+                   echo "========Docker build initiated========"
+                   slackSend message: "Docker build initiated...: ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
+
+                }
+
+                success
+
+                {
+                   echo "========Docker build successfuly complete and Docker left the building! ========"
+                   slackSend message: "Docker build successfuly complete and Docker left the building! ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
+
+                }
+
+                failure
+
+                {
+                   echo "========Docker build failed========"
+                   slackSend message: "Docker build failed, but we just confirmed, that no Dockers (in any building) was injured! ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
+
+                }
+
+               }
+
+
+
             }
 
         }
@@ -100,7 +170,7 @@ pipeline
 
                 {
 
-                    // login to ECR - for now it seems that that the ECR Jenkins plugin is not performing the login as expected. I hope it will in the future.
+                    // login to ECR 
 
                     sh("eval \$(aws ecr get-login --no-include-email | sed 's|https://||')")
 
@@ -115,6 +185,38 @@ pipeline
                     }
 
                 }
+
+                post
+
+                {
+
+                always
+
+                {
+
+                   echo "========Docker push initiated========"
+                   slackSend message: "Docker push initiated...: ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
+
+                }
+
+                success
+
+                {
+                   echo "========Docker push successfuly complete, enjoy! ========"
+                   slackSend message: "Docker push successfuly complete, enjoy! ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
+
+                }
+
+                failure
+
+                {
+                   echo "========Docker push failed========"
+                   slackSend message: "Docker push failed, but we just confirmed, that no Dockers was injured! ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
+
+                }
+
+               }
+
 
             }
 
@@ -136,7 +238,28 @@ pipeline
 
             sh "docker rmi $IMAGE | true"
 
+            echo "========Pipeline started========"
+            slackSend message: "Pipeline started...: ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
+       
         }
+
+        success
+         
+        {
+             echo "========Pipeline successfully finished========"
+             slackSend message: "Pipeline successfully finished - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
+       
+        }
+
+        failure 
+        
+        {
+             echo "========Pipeline failed========"
+             slackSend message: "Pipeline was a  failure, hope Lord Vader will not notice...: ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
+       
+        }
+     
+      }
 
     }
 
