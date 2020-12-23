@@ -97,29 +97,7 @@ pipeline
             }
         }
 
-        agent { docker {
-          image image_name
-          args '-p 9000:9000'
-        } }
-
-        steps {
-          script {
-            
-            // Validate Image
-            
-            sh 'curl localhost:9000'
-        }
-      }
-      
-
-      // scan image for vulnerabilities
-      scanConfig = [
-        'buildName':   buildInfo.name,
-        'buildNumber': buildInfo.number
-      ]
-      xrayResults = xrayScanBuild(scanConfig)
-      print xrayResults as String
-
+ 
         stage('Docker push')
 
         {
