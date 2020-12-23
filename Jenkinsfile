@@ -129,7 +129,7 @@ pipeline
 
             // make sure that the Docker image is removed
 
-            sh "docker rmi $IMAGE | true"
+            sh "sudo docker rmi $IMAGE | true"
 
             echo "========Pipeline started========"
             slackSend message: "Pipeline started...: ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
