@@ -127,31 +127,20 @@ pipeline
                 }
             }
         }
-    }
 
+        stage('Run Helm') {
+          steps {
+          script {      
+          container('helm') {
+          sh "helm ls"
+              }
+             } 
+            }
+           }
 
-    
-    helm.lint(
-      chart: params.APP,
-      set:   ["image.tag=${params.VERSION}"]
-    )
+}
 
-    helm.packages(
-      chart:       "charts/${params.APP}",
-      update_deps: true,
-      version:     params.VERSION
-    )
-    
-    helm.install(
-      chart: "${params.APP}-chart",
-      name:  "${params.APP}-${params.VERSION}"
-    )
-
-    helm.test(
-      cleanup:  false,
-      name:     "${params.APP}-${params.VERSION}",
-      parallel: true
-    )
+ 
     
     post
 
