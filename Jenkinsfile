@@ -129,7 +129,7 @@ pipeline
         }
     }
 
-    helm.setup('2.14.3')
+
     
     helm.lint(
       chart: params.APP,
