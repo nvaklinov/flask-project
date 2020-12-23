@@ -40,10 +40,6 @@ pipeline
 
     }
     
-    withCredentials([kubeconfigFile(credentialsId: 'mykubeconfig', variable: 'KUBECONFIG')]) {
-        sh 'use $KUBECONFIG' // environment variable; not pipeline variable
-    }
-
     stages
 
     {
