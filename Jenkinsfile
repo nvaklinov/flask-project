@@ -129,7 +129,7 @@ pipeline
 
             // make sure that the Docker image is removed
 
-            sh "sudo -S jenkins  docker rmi $IMAGE | true"
+            sh "docker rmi -f ${image.id}"
 
             echo "========Pipeline started========"
             slackSend message: "Pipeline started...: ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
