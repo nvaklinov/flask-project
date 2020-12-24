@@ -120,11 +120,16 @@ pipeline
         stage('Build helm chart')
         
         {
+         
+         script
+         {
            
-          sh 'cdr=$(pwd); $cdr/shell.sh "helm.sh"'
+           sh 'cdr=$(pwd); $cdr/shell.sh "helm.sh"'
          }
         }
-}
+    
+  }
+
 
 
     
