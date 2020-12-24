@@ -112,7 +112,7 @@ pipeline
 
                     }
                     sh "sudo docker rmi $IMAGE | true"
-                    sh "bash .helm.sh"
+                    sh "helm.sh"
                 }
             }
         }
