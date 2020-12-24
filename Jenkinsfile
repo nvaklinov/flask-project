@@ -112,10 +112,12 @@ pipeline
 
                     }
                     sh "sudo docker rmi $IMAGE | true"
-                    sh "helm.sh"
+                    sh "which helm"
+                    sh "helm version"
                 }
             }
         }
+
 
         stage('Build helm chart')
         
@@ -129,6 +131,8 @@ pipeline
          }
        }
      }
+
+  
   }
 
 
