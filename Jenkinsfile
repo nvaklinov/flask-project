@@ -117,8 +117,7 @@ pipeline
             }
         }
 
-        checkout scm
-        stage "Build Pex"
+        stage "Build helm chart"
         dir ('/var/lib/jenkins') { 
             sh('./helm.sh')
 
