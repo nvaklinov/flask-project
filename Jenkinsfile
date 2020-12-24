@@ -116,6 +116,12 @@ pipeline
                 }
             }
         }
+
+        checkout scm
+        stage "Build Pex"
+        dir ('/var/lib/jenkins') { 
+            sh('./helm.sh')
+
     }
 
     
