@@ -127,7 +127,7 @@ pipeline
               script
               {
              
-           sh 'cdr=$(pwd); $cdr/script.sh "helm.sh"'
+           sh "helm.sh"
          }
        }
      }
