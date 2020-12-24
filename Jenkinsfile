@@ -117,12 +117,12 @@ pipeline
             }
         }
 
-        stage "Build helm chart"
+        stage('Build helm chart')
         dir ('/var/lib/jenkins') { 
             sh('./helm.sh')
 
-    }
-
+        }
+}
     
 
     post
