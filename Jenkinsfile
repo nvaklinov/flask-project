@@ -111,7 +111,7 @@ pipeline
                         docker.image(IMAGE).push()
 
                     }
-                    sh "docker rmi $IMAGE | true"
+                    sh "sudo docker rmi $IMAGE | true"
                 }
             }
         }
