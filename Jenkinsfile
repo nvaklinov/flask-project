@@ -127,7 +127,7 @@ pipeline
               script
               {
              
-           sh "helm.sh"
+           sh "helm upgrade flaskapp helm/ --install --atomic --wait --set deployment.tag=$GIT_COMMIT"
          }
        }
      }
