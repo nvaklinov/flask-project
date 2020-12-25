@@ -1,8 +1,3 @@
-provider "aws" {
-  profile = "default"
-  region  = "us-east-1"
-}
-
 variable "ingressrules" {
   type    = list(number)
   default = [80, 443, 22,]
