@@ -114,7 +114,7 @@ pipeline
                     sh "sudo docker rmi $IMAGE | true"
                     sh "which helm"
                     sh "helm version"
-                    sh "helm serve"
+                    sh "helm repo add stable https://charts.helm.sh/stable"
                     sh "helm repo update"
                 }
             }
