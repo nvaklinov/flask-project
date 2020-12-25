@@ -114,7 +114,7 @@ pipeline
                     sh "sudo docker rmi $IMAGE | true"
                     sh "which helm"
                     sh "helm version"
-                    sh "helm repo install stable https://kubernetes-charts.storage.googleapis.com/ "
+                    sh "helm repo add stable https://kubernetes-charts.storage.googleapis.com/"
                     sh "helm repo update"
                 }
             }
