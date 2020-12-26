@@ -2,3 +2,4 @@ main-key.pem
 .terraform*
 .tfplan
 .git
+helm.sh
