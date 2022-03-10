@@ -1,0 +1,4 @@
+pod:
+  name: flaskapp
+  image: 778771330850.dkr.ecr.us-east-1.amazonaws.com/flaskapp
+  tag: latest
