@@ -5,8 +5,8 @@ metadata:
 spec:
   type: {{ .Values.service.type }}
   selector:
-    app: {{ .Values.deployment.name }}
+    app: {{ .Values.pod.name }}
   ports:
     - protocol: TCP
       port: {{ .Values.service.port }}
-      targetPort: {{ .Values.deployment.port }}
+      targetPort: {{ .Values.pod.port }}
