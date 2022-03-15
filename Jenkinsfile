@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh 'docker build -t "https://778771330850.dkr.ecr.eu-central-1.amazonaws.com/flaskapp:$GIT_COMMIT" .'
+                sh 'docker build -t "778771330850.dkr.ecr.eu-central-1.amazonaws.com/flaskapp:$GIT_COMMIT" .'
                 }
         }
         stage('Push') {
