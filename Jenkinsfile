@@ -15,9 +15,7 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                sh 'kubectl -n spinnaker get events --sort-by=\'{.lastTimestamp}\''
-            
-                sh 'helm upgrade flaskapp helm/flaskapp/ --install --atomic --wait --set deployment.tag=$GIT_COMMIT --debug'
+                sh 'helm upgrade flaskapp helm/flaskapp/ --install --atomic --wait --set deployment.tag=$GIT_COMMIT --debug --timeout 1m0s'
             }
         }
     }
