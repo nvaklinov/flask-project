@@ -14,7 +14,7 @@ data "aws_ami" "amazon-linux-2" {
 resource "aws_security_group" "allow_jenkins" {
   name = "allow jenkins"
   description = "Allow  inbound traffic"
-  vpc_id = " "
+  vpc_id = "vpc-0a99b52041e8c6077"
 
   ingress {
     description = "TLS from VPC"
