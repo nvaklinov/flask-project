@@ -15,7 +15,7 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                sh 'helm upgrade flaskapp helm/flaskapp/ --install --atomic --wait --set deployment.tag=$GIT_COMMIT --debug --timeout 1m0s'
+                sh 'helm upgrade flaskapp helm/flaskapp/ --install --set deployment.tag=$GIT_COMMIT'
             }
         }
     }
