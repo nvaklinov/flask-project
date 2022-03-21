@@ -10,8 +10,8 @@ module "vpc" {
 
     enable_nat_gateway     = true
 #    single_nat_gateway     = true
-    one_nat_gateway_per_az = false
-    enable_dns_hostnames   = true
-    reuse_nat_ips          = true
+#    one_nat_gateway_per_az = false
+#    enable_dns_hostnames   = true
+#    reuse_nat_ips          = true
 
 }

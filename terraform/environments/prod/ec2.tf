@@ -43,6 +43,7 @@ resource "aws_security_group" "allow_jenkins"{
 resource "aws_instance" "jenkins" {
   ami = data.aws_ami.amazon-2.id
   associate_public_ip_address = true
+  user_data       = file("installation.sh")
   instance_type = "t2.large"
   vpc_security_group_ids      = [aws_security_group.allow_jenkins.id]
   tags = {
