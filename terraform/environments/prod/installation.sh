@@ -1,38 +1,49 @@
 #!/bin/bash
 
 echo "Installing Jenkins"
-sudo add-apt-repository universe
-sudo apt-get -f install
-sudo apt install net-tools
+sudo yum update
+sudo wget -O /etc/yum.repos.d/jenkins.repo \
+https://pkg.jenkins.io/redhat-stable/jenkins.repo
+sudo rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io.key
+sudo yum upgrade
+sudo amazon-linux-extras install java-openjdk11 -y
+sudo yum install jenkins -y
+sudo systemctl enable jenkins
+sudo systemctl start jenkins
+sudo systemctl status jenkins
 curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
 sudo chmod +x ./kubectl
 sudo mv ./kubectl /usr/local/bin/kubectl
-sudo apt install awscli -y
-wget -q -O - https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo apt-key add -
-sudo sh -c 'echo deb http://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list'
-sudo apt update -qq
-sudo apt install -y default-jre
-sudo apt install -y jenkins
-sudo systemctl start jenkins
+aws eks get-token --cluster-name my-cluster
+echo 'export KUBECONFIG=$KUBECONFIG:~/.kube/config-aws' >> ~/.bash_profile
+aws eks update-kubeconfig --name my-cluster
+sudo yum -y install awscli
 sudo iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 8080
 sudo sh -c \"iptables-save > /etc/iptables.rules\"
 echo iptables-persistent iptables-persistent/autosave_v4 boolean true | sudo debconf-set-selections
 echo iptables-persistent iptables-persistent/autosave_v6 boolean true | sudo debconf-set-selections
 sudo apt-get -y install iptables-persistent
 sudo ufw allow 8080
+sudo cp -R /home/ec2-user/.aws /var/lib/jenkins
+sudo shown -R jenkins ./
 echo "Installing docker"
-sudo apt-get update
-sudo apt-get install apt-transport-https ca-certificates curl gnupg-agent software-properties-common --yes
-curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add -
-sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-sudo apt-get update
-sudo apt-get install docker-ce --yes
-sudo usermod -aG docker ubuntu
+sudo yum update
+sudo amazon-linux-extras enable docker
+sudo yum -y install amazon-ecr-credential-helper
+sudo yum -y install docker
+sudo systemctl enable docker.service
+sudo systemctl start docker.service
+sudo usermod -aG docker ec2-user
+sudo chmod 666 /var/run/docker.sock
+chmod +x ./.docker
 sudo systemctl start docker
+sudo yum -y install git
+curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.21.2/2021-07-05/bin/linux/amd64/kubectl
+curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.21.2/2021-07-05/bin/linux/arm64/kubectl
+chmod +x ./kubectl
+mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$PATH:$HOME/bin
 echo "Installing helm"
-curl https://baltocdn.com/helm/signing.asc | sudo apt-key add -
-sudo apt-get install apt-transport-https --yes
-echo "deb https://baltocdn.com/helm/stable/debian/ all main" | sudo tee /etc/apt/sources.list.d/helm-stable-debian.list
-sudo apt-get update
-sudo apt-get install helm
-sudo apt  install awscli
+sudo yum -y update
+curl -sSL https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
+helm repo add stable https://charts.helm.sh/stable
+sudo yum -y install awscli
