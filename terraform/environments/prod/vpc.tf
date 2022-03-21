@@ -14,13 +14,4 @@ module "vpc" {
   #  enable_dns_hostnames   = true
   #  reuse_nat_ips          = true
 
-  public_subnet_tags = {
-    # public_subnet = "shared"
-    "kubernetes.io/cluster/${module.eks-cluster.cluster_name}" = "shared"
-    "kubernetes.io/role/elb"  = "1"
-  }
-  private_subnet_tags = {
-    "kubernetes.io/cluster/${module.eks-cluster.cluster_name}" = "shared"
-    "kubernetes.io/role/internal-elb"  = "1"
-  }
 }
