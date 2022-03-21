@@ -1,4 +1,4 @@
-data "aws-ami" "amazon-linux-2" {
+data "aws_ami" "amazon-linux-2" {
   most_recent = true
 
   filter {
@@ -30,7 +30,7 @@ resource "aws_security_group" "allow_jenkins"{
   Name = "jenkins"
 }
 resource "aws_instance" "jenkins" {
-  ami = data.aws-ami.amazon-linux-2.id
+  ami = data.aws_ami.amazon-linux-2.id
   associate_public_ip_address = true
 }
 
