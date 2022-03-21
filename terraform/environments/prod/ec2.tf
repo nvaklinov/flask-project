@@ -29,7 +29,7 @@ resource "aws_security_group" "allow_jenkins"{
 
 }
 resource "aws_instance" "jenkins" {
-  ami = data.aws_ami.amazon-linux-2.id
+  ami = data.aws_ami.amazon-2.id
   associate_public_ip_address = true
   instance_type = "t2.large"
 }
