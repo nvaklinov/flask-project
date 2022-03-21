@@ -26,11 +26,11 @@ resource "aws_security_group" "allow_jenkins"{
     cidr_blocks = ["0.0.0.0/0"]
     ipv6_cidr_blocks = ["::/0"]
   }
-  protocol = "tcp"
-  Name = "jenkins"
+
 }
 resource "aws_instance" "jenkins" {
   ami = data.aws_ami.amazon-linux-2.id
   associate_public_ip_address = true
+  instance_type = "t2.large"
 }
 
