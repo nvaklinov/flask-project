@@ -10,7 +10,7 @@ data "aws_ami" "amazon-2" {
 resource "aws_security_group" "allow_jenkins"{
   name = "allow_jenkins"
   description = "Allow inbound traffic"
-  vpc_id = module.vpc.vpc_id
+  vpc_id = "vpc-09554bc37cff18b15"
 
   ingress {
     description      = "TLS from VPC"
@@ -46,6 +46,7 @@ resource "aws_instance" "jenkins" {
   user_data       = file("installation.sh")
   instance_type = "t2.large"
   vpc_security_group_ids      = [aws_security_group.allow_jenkins.id]
+  subnet_id = "subnet-03877e6b5aac8fd7a"
   tags = {
     Name = "jenkins_server"
   }
