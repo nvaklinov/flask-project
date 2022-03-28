@@ -1,0 +1,61 @@
+data "aws_ami" "amazon-linux-2" {
+  most_recent = true
+
+ filter {
+    name = "name"
+    values = ["amazon"]
+  }
+  owners = ["amazon"]
+}
+
+root_block_device {
+    delete_on_termination = true
+}
+
+resource "aws_security_group" "jenkins_SG"{
+  name = "jenkins_SG"
+  description = "Allow inbound traffic"
+  vpc_id = "vpc-0e837a81fd41bd5df"
+}
+
+  ingress {
+    description      = "TLS from VPC"
+    from_port        = 8080
+    to_port          = 8080
+    protocol         = "tcp"
+    cidr_blocks      = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    description      = "ssh"
+    from_port        = 22
+    to_port          = 22
+    protocol         = "tcp"
+    cidr_blocks      = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port        = 0
+    to_port          = 0
+    protocol         = "-1"
+    cidr_blocks      = ["0.0.0.0/0"]
+  }
+
+output "instance-private-ip" {
+  value = "172.31.41.78"
+}
+
+output "instance-public-ip" {
+  value = "3.126.138.251"
+}
+
+
+#resource "aws_instance" "Jenkins" {
+#  name = "Jenkins"
+#  ami = "ami-09042b2f6d07d164a"
+#  instance_type = "t2.micro"
+#  vpc_security_group_ids  = ["vpc-0e837a81fd41bd5df"]
+#  subnet_id = "subnet-05b45d1f030bb0f65"
+#  associate_public_ip_address = true
+#}
+
