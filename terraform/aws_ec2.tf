@@ -49,9 +49,9 @@ resource "aws_instance" "for_jenkins" {
 
  ami                         = data.aws_ami.amazon-linux-2.id
  associate_public_ip_address = true
- instance_type               = "t2.micro"
+ instance_type               = var.instance
  vpc_security_group_ids      = [aws_security_group.this.id]
- subnet_id                   = "subnet-0f3869665153ce140"
+ subnet_id                   = var.subnet
  tags = {
     Name = "Jenkins_Server"
   }
