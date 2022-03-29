@@ -1,0 +1,11 @@
+deployment: 
+    name: flaskapp
+    replicas: 2
+    image: 723243027772.dkr.ecr.eu-central-1.amazonaws.com/flaskapp
+    tag: latest
+    port: 5000
+                        
+service:
+    name: flaskapp-svc
+    type: LoadBalancer
+    port: 80
