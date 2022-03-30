@@ -5,12 +5,12 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh ''
+                sh '978746379266.dkr.ecr.eu-central-1.amazonaws.com/flaskapp:$GIT_COMMIT'
             }
         }
         stage('Push') {
             steps {
-               sh ''
+               sh '978746379266.dkr.ecr.eu-central-1.amazonaws.com/flaskapp:$GIT_COMMIT'
             }
         }
         stage('Deploy') {
