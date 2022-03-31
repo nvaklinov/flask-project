@@ -1,16 +1,15 @@
 pipeline {
     agent any
 
-
     stages {
         stage('Build') {
             steps {
-                sh 'docker build -t "978746379266.dkr.ecr.eu-central-1.amazonaws.com/flaskapp:$GIT_COMMIT" .'
+                sh 'docker build -t "978746379266.dkr.ecr.eu-central-1.amazonaws.com/devops_ecr:$GIT_COMMIT" .'
             }
         }
         stage('Push') {
             steps {
-               sh 'docker build -t "978746379266.dkr.ecr.eu-central-1.amazonaws.com/flaskapp:$GIT_COMMIT" .'
+               sh 'docker build -t "978746379266.dkr.ecr.eu-central-1.amazonaws.com/devops_ecr:$GIT_COMMIT" .'
             }
         }
         stage('Deploy') {
