@@ -1,0 +1,6 @@
+# Default ignored files
+/shelf/
+/workspace.xml
+terraform/terraform.tfstate
+terraform/terraform.tfstate.backup
+terraform/.terraform/
