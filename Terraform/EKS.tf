@@ -2,7 +2,7 @@ module "eks-cluster" {
 	source          = "terraform-aws-modules/eks/aws"
 	version         = "17.24.0"
 	cluster_name    = "FlaskApp-Cluster"
-	cluster_version = "1.20"
+	cluster_version = "1.21"
 	subnets         = ["subnet-05b45d1f030bb0f65","subnet-0cd73545e17667d5d","subnet-061ae723ff3b547a0"]
 	vpc_id = "vpc-0e837a81fd41bd5df"
 
