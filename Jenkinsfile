@@ -16,6 +16,7 @@ pipeline {
 		}
 		stage('Deploy') {
 			steps {
+				sh 'kubectl config view --raw > ~/.kube/config'
 				sh 'helm upgrade flaskapp helm/flaskapp/ --install --atomic --wait --set deployment.tag=latest'
 			}
 		}
