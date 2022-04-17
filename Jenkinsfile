@@ -16,7 +16,7 @@ pipeline {
 		}
 		stage('Deploy') {
 			steps {
-				sh 'helm upgrade flaskapp helm/flaskapp --install --set deployment.tag=latest'
+				sh 'helm upgrade flaskapp helm/flaskapp/ --install --atomic --wait --set deployment.tag=latest'
 			}
 		}
 	}
