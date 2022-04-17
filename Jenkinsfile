@@ -4,8 +4,7 @@ pipeline {
 	stages {
 		stage('Build') {
 			steps {
-				sh 'aws ecr get-login-password --region eu-central-1 | docker login --username AWS --password-stdin 978746379266.dkr.ecr.eu-ce
-ntral-1.amazonaws.com'
+				sh 'aws ecr get-login-password --region eu-central-1 | docker login --username AWS --password-stdin "978746379266.dkr.ecr.eu-central-1.amazonaws.com"'
 				sh 'docker build -t devops_ecr .'
 			}
 		}
