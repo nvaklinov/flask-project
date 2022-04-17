@@ -4,18 +4,20 @@ pipeline {
 	stages {
 		stage('Build') {
 			steps {
-				sh 'docker build -t  "978746379266.dkr.ecr.eu-central-1.amazonaws.com/devops_ecr:$GIT_COMMIT" .'
+				sh 'aws ecr get-login-password --region eu-central-1 | docker login --username AWS --password-stdin 978746379266.dkr.ecr.eu-ce
+ntral-1.amazonaws.com'
+				sh 'docker build -t devops_ecr .'
 			}
 		}
 		stage('Push') {
 			steps {
-				sh 'aws ecr get-login-password --region eu-central-1 | docker login --username AWS --password-stdin 978746379266.dkr.ecr.eu-central-1.amazonaws.com'
-				sh 'docker push 978746379266.dkr.ecr.eu-central-1.amazonaws.com/devops_ecr:$GIT_COMMIT'
+				sh 'docker tag devops_ecr:latest 978746379266.dkr.ecr.eu-central-1.amazonaws.com/devops_ecr:latest'
+				sh 'docker push 978746379266.dkr.ecr.eu-central-1.amazonaws.com/devops_ecr:latest'
 			}
 		}
 		stage('Deploy') {
 			steps {
-				sh 'helm upgrade flaskapp helm/flaskapp --install --set deployment.tag=$GIT_COMMIT'
+				sh 'helm upgrade flaskapp helm/flaskapp --install --set deployment.tag=latest'
 			}
 		}
 	}
