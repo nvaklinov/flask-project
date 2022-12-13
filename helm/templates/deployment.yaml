@@ -19,3 +19,6 @@ spec:
         image: "{{ .Values.deployment.image }}:{{ .Values.deployment.tag }}"
         ports:
         - containerPort: {{ .Values.deployment.port }}
+        envFrom:
+            - configMapRef:
+                  name: "{{ .Values.deployment.name }}-config" 

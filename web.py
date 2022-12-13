@@ -2,8 +2,11 @@
 
 from flask import Flask
 from flask import render_template
+import os
 
 app = Flask(__name__)
+
+env=os.getenv('ENV')
 
 @app.route("/")
 def home():
@@ -15,6 +18,7 @@ def pic():
 
 @app.route("/pragmatic")
 def salvador():
-    return "Hello, pragmatic!"
+    result= f"hello from {env}"
+    return result
 if __name__ == "__main__":
     app.run(host='0.0.0.0',debug=True)

@@ -4,8 +4,8 @@ set -e
 
 #########BUILD############
 
-image_name=999999999.dkr.ecr.eu-central-1.amazonaws.com/pragma-app
-docker build -t $image_name:$GIT_COMMIT
+image_name=058302395964.dkr.ecr.eu-central-1.amazonaws.com/flask
+docker build -t $image_name:$GIT_COMMIT .
 docker run -dit -p 5000:5000 $image_name:$GIT_COMMIT
 sleep 5
 
@@ -19,8 +19,7 @@ else echo "FAILED TESTS" && docker stop $(docker ps -a -q) && exit 1
 fi
 
 #########PUSH##############
-aws ecr get-login-password --region eu-central-1 | docker login --username AWS --password_stdin 999999999.dkr.ecr.eu-central-1.amazonaws.com
-
+docker login -u AWS https://058302395964.dkr.ecr.eu-central-1.amazonaws.com -p $(aws ecr get-login-password --region eu-central-1)
 docker push $image_name:$GIT_COMMIT
 
 ########DEPLOY############
@@ -32,11 +31,11 @@ deploy() {
 helm upgrade flask helm/ --atomic --wait --install --namespace $env --create-namespace --set deployment.tag=$tag --set deployment.env=$env
 }
 
-if [[ $GIT_BRANCH == "origin/main" ]]
+if [[ $GIT_BRANCH == "origin/master" ]]
 then deploy prod $GIT_COMMIT
-elif [[ $GIT_BRANCH == "origin/dev" ]]
+elif [[ $GIT_BRANCH == "origin/development" ]]
 then deploy dev $GIT_COMMIT
-elif [[ $GIT_BRANCH == "origin/stage" ]]
-then deploy stage $GIT_COMMIT
+elif [[ $GIT_BRANCH == "origin/uat" ]]
+then deploy uat $GIT_COMMIT
 else echo "Branch I cannot deploy" && exit 1
 fi
