@@ -4,6 +4,7 @@ deployment:
     tag: latest
     replicas: 1
     port: 5000
+    env: dev
 
 service:
    port: 80
