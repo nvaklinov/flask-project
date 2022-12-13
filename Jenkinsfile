@@ -1,5 +1,8 @@
 pipeline {
     agent any
+    triggers{
+    pollSCM('')
+}
     environment {
         image_name="058302395964.dkr.ecr.eu-central-1.amazonaws.com/flask"
 }
