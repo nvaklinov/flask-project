@@ -35,11 +35,40 @@ pipeline {
           }
 
           stage('Deploy_DEV') {
+            when {
+               expression {
+                     env.BRANCH_NAME == "development"
+             }
+          }
             steps {
                 sh '''
                      helm upgrade flask helm/ --atomic --wait --install --namespace dev --create-namespace --set deployment.tag=$GIT_COMMIT --set deployment.env=dev                       
                     '''
                 }
           }
+          stage('Deploy_UAT') {
+            when {
+               expression {
+                     env.BRANCH_NAME == "uat"
+             }
+          }
+            steps {
+                sh '''
+                     helm upgrade flask helm/ --atomic --wait --install --namespace uat --create-namespace --set deployment.tag=$GIT_COMMIT --set deployment.env=uat
+                    '''
+                }
+           }
+          stage('Deploy_PROD') {
+            when {
+               expression {
+                     env.BRANCH_NAME == "master"
+             }
+          }
+            steps {
+                sh '''
+                     helm upgrade flask helm/ --atomic --wait --install --namespace prod --create-namespace --set deployment.tag=$GIT_COMMIT --set deployment.env=prod
+                    '''
+                }
+           }
 }
 }
