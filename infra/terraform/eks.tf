@@ -37,7 +37,7 @@ module "eks" {
       labels = {
         role = "general"
       }
-      instance_type = ["t3.small"]
+      instance_type = ["t2.large"]
       capacity_type = "ON_DEMAND"
     }
   }
