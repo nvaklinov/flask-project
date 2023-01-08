@@ -16,9 +16,11 @@ spec:
     spec:
       containers:
       - name: {{ .Values.deployment.name }}
-        image: {{ .Values.deployment.image }}
+        image: {{ .Values.deployment.image }}  
         ports:
-        - containerPort: {{ .Values.deployment.port }}
+        - containerPort: {{ .Values.deployment.port }} 
         envFrom:
             - configMapRef:
                   name: "{{ .Values.deployment.name }}-config" 
+      imagePullSecrets:
+      - name: regcred
