@@ -1,6 +1,7 @@
 deployment:
     name: flaskapp
-    image: nvaklinov/flask:latest 
+    image: nvaklinov/flask
+    tag: latest
     replicas: 1
     port: 5000
     env: dev
