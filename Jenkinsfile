@@ -73,8 +73,8 @@ pipeline {
 }
 
 
-void Deploy(String env) {
+void Deploy(String DeployEnv) {
     sh '''
-    helm upgrade flask helm/ --atomic --wait --install --namespace ${env} --create-namespace --set deployment.tag=$GIT_COMMIT --set deployment.env=${env}
+    helm upgrade flask helm/ --atomic --wait --install --namespace ${DeployEnv} --create-namespace --set deployment.tag=$GIT_COMMIT --set deployment.env=${DeployEnv}
     '''
 }
