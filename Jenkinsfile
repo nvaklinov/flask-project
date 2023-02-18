@@ -4,7 +4,9 @@ pipeline {
     pollSCM('') // Enabling being build on Push
    }  
     environment {
-        image_name="058302395964.dkr.ecr.eu-central-1.amazonaws.com/pragma-app"
+        image_name="058302395964.dkr.ecr.eu-central-1.amazonaws.com/pragma-appi"
+        region="eu-central-1"
+        account="058302395964"
     }
     stages {
         stage('Build') {
@@ -30,10 +32,8 @@ pipeline {
         }
         stage('Push') {
             steps {
-               sh '''
-                  docker login -u AWS https://058302395964.dkr.ecr.eu-central-1.amazonaws.com -p $(aws ecr get-login-password --region eu-central-1)
-                  docker push ${image_name}:$GIT_COMMIT
-                '''
+                docker login -u AWS https://${account}.dkr.ecr.${region}.amazonaws.com -p $(aws ecr get-login-password --region ${region})
+                docker push ${image_name}:$GIT_COMMIT 
             }
         }
         stage("Deploy_Dev") {
@@ -43,9 +43,7 @@ pipeline {
                 }
           }
             steps {
-                sh '''
-                    helm upgrade flask helm/ --atomic --wait --install --namespace dev --create-namespace --set deployment.tag=$GIT_COMMIT --set deployment.env=dev
-                '''
+              Deploy("dev")    
           }
         }
        stage("Deploy_Stage") {
@@ -55,9 +53,8 @@ pipeline {
                 }
           }
             steps {
-                sh '''
-                    helm upgrade flask helm/ --atomic --wait --install --namespace stage --create-namespace --set deployment.tag=$GIT_COMMIT --set deployment.env=dev
-                '''
+            
+          Deploy("stage")  
     }
   }
        stage("Deploy_Prod") {
@@ -67,10 +64,15 @@ pipeline {
                 }
           }
             steps {
-                sh '''
-                    helm upgrade flask helm/ --atomic --wait --install --namespace prod --create-namespace --set deployment.tag=$GIT_COMMIT --set deployment.env=prod
-                '''
+             Deploy("prod")
            }
          }
        }
     }
+
+
+void Deploy(String env) {
+sh '''
+helm upgrade flask helm/ --atomic --wait --install --namespace ${env} --create-namespace --set deployment.tag=$GIT_COMMIT --set deployment.env=${}
+'''
+}
