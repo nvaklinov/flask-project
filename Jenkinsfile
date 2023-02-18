@@ -45,10 +45,7 @@ pipeline {
                 }
             }
             steps {
-		    script {
-                       env.DeployEnv: "dev"
-		    }
-                Deploy()
+                Deploy("dev")
             }
         }
         stage("Deploy_Stage") {
@@ -58,10 +55,7 @@ pipeline {
                 }
             }
             steps {
-               script {
-                        env.DeployEnv: "stage"
-                     }
-                Deploy(")
+                Deploy("stage")
             }
         }
         stage("Deploy_Prod") {
@@ -71,17 +65,14 @@ pipeline {
                 }
             }
             steps {
-               script {
-                        env.DeployEnv: "prod"
-                     }
-                Deploy()
+                Deploy("prod")
             }
         }
     }
 }
 
 
-def Deploy() {
+def Deploy(DeployEnv) {
     sh '''
     helm upgrade flask helm/ --atomic --wait --install --namespace ${DeployEnv} --create-namespace --set deployment.tag=$GIT_COMMIT --set deployment.env=${DeployEnv}
     '''
