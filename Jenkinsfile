@@ -32,8 +32,10 @@ pipeline {
         }
         stage('Push') {
             steps {
+              sh'''
                 docker login -u AWS https://${account}.dkr.ecr.${region}.amazonaws.com -p $(aws ecr get-login-password --region ${region})
-                docker push ${image_name}:$GIT_COMMIT 
+                docker push ${image_name}:$GIT_COMMIT
+               '''
             }
         }
         stage("Deploy_Dev") {
