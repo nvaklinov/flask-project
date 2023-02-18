@@ -4,7 +4,7 @@ pipeline {
     pollSCM('') // Enabling being build on Push
    }  
     environment {
-        image_name="058302395964.dkr.ecr.eu-central-1.amazonaws.com/pragma-appi"
+        image_name="058302395964.dkr.ecr.eu-central-1.amazonaws.com/flask"
         region="eu-central-1"
         account="058302395964"
     }
