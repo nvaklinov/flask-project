@@ -62,7 +62,7 @@ pipeline {
         stage("Deploy_Prod") {
             when {
                 expression {
-                    env.BRANCH_NAME == "main"
+                    env.BRANCH_NAME == "master"
                 }
             }
             steps {
