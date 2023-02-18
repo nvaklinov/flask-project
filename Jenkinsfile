@@ -1,7 +1,7 @@
 def Deploy(DeployEnv) {
-    helm upgrade flask helm/ --atomic --wait --install --namespace ${DeployEnv} --create-namespace --set deployment.tag=$GIT_COMMIT --set deployment.env=${DeployEnv}
+    sh ''' helm upgrade flask helm/ --atomic --wait --install --namespace ${DeployEnv} --create-namespace --set deployment.tag=$GIT_COMMIT --set deployment.env=${DeployEnv}
+    '''
 }
-
 
 pipeline {
     agent any
@@ -15,12 +15,15 @@ pipeline {
     }
     stages {
         stage('Build') {
-            steps {   
-                docker build -t "${image_name}:$GIT_COMMIT" . 
+            steps {
+                sh '''
+                docker build -t "${image_name}:$GIT_COMMIT" .
+                '''
             }
         }
         stage('Test') {
-            steps {       
+            steps {
+                sh '''
                 docker run -dit -p 5000:5000 "${image_name}:$GIT_COMMIT"
                 sleep 5
                 curl localhost:5000
@@ -29,13 +32,15 @@ pipeline {
                 then echo "SUCCESSFUL TESTS" && docker stop $(docker ps -a -q)
                 else echo "FAILED TESTS" && docker stop $(docker ps -a -q) && exit 1
                 fi
-      
+                '''
             }
         }
         stage('Push') {
-            steps { 
+            steps {
+                sh'''
                 docker login -u AWS https://${account}.dkr.ecr.${region}.amazonaws.com -p $(aws ecr get-login-password --region ${region})
-                docker push ${image_name}:$GIT_COMMIT 
+                docker push ${image_name}:$GIT_COMMIT
+                '''
             }
         }
         stage("Deploy_Dev") {
