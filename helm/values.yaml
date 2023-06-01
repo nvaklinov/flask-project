@@ -5,6 +5,7 @@ deployment:
     replicas: 1
     port: 5000
     env: dev
+    domain: nikvak.com
 
 service:
    port: 80
