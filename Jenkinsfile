@@ -26,8 +26,7 @@ pipeline {
             steps {
                 sh '''
                 docker run -dit -p 5000:5000 "${image_name}:$GIT_COMMIT"
-                sleep 5
-                curl localhost:5000
+                curl --connect-timeout 30 --retry 300 --retry-delay 5 http://localhost:5000
                 exit_status=$?
                 if [[ $exit_status == 0 ]]
                 then echo "SUCCESSFUL TESTS" && docker stop $(docker ps -a -q)

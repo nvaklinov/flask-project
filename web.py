@@ -10,15 +10,10 @@ env=os.getenv('ENV')
 
 @app.route("/")
 def home():
-    return "Hello, World!"
+    return render_template('index.html')
 
-@app.route("/picture")
-def pic():
-        return render_template('index.html')
-
-@app.route("/pragmatic")
-def salvador():
-    result= f"hello from {env}"
-    return result
 if __name__ == "__main__":
-    app.run(host='0.0.0.0',debug=True)
+    if env == "dev" or env == None:
+         app.run(host='0.0.0.0',debug=True)
+    else:
+         app.run(host='0.0.0.0')

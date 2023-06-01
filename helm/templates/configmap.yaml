@@ -3,4 +3,4 @@ kind: ConfigMap
 metadata:
   name: "{{ .Values.deployment.name }}-config"
 data:
-   ENV: {{ .Values.deployment.env }} 
+   ENV: {{ .Values.deployment.env }}

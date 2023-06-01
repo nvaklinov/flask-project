@@ -7,6 +7,7 @@ spec:
     app: {{ .Values.deployment.name }}
   ports:
     - protocol: TCP
-      port: {{ .Values.service.port }}
+      port: {{ .Values.deployment.port }}
       targetPort: {{ .Values.deployment.port }}
-  type: LoadBalancer
+   #   nodePort: {{ .Values.service.nodeport }}
+ # type: NodePort
