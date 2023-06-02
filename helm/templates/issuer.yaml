@@ -15,8 +15,3 @@ spec:
       dns01:
         route53:
           region: eu-central-1
-
-#flux create secret git flask-auth \
-#    --url=ssh://git@github.com/nvaklinov/flask-project.git \
-#    --private-key-file=./id_rsa
-

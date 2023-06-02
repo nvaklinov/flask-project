@@ -297,7 +297,7 @@ resource "helm_release" "external_dns" {
 #  name       = "nginx-ingress-controller"
 #  repository = "https://charts.bitnami.com/bitnami"
 #  chart      = "nginx-ingress-controller"
-#  version    = "1.7.1"
+#  version    = "9.7.2"
 #  atomic     = true
 #  wait       = true
 #  namespace  = "kube-system"
