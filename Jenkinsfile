@@ -20,7 +20,7 @@ pipeline {
                 sleep 10
                 curl http://localhost:5000
                 exit_status=$?
-                if [[ $exit_status == 0]]
+                if [[ $exit_status == 0 ]]
                 then echo "SUCCESFULL TESTS" && docker stop $(docker ps -a -q)
                 else echo "TESTS FAILED" && docker stop $(docker ps -a -q) && exit 1
                 fi
