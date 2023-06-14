@@ -23,9 +23,10 @@ pipeline {
         stage("test") {
             steps {
                 sh '''
-                docker run -dit -p 5000:5000 "${image_name}:$GIT_COMMIT" || docker stop $(docker ps -a -q)
+                port=$(shuf -i 2000-5000 -n 1)
+                docker run -dit -p $port:5000 "${image_name}:$GIT_COMMIT" || docker stop $(docker ps -a -q)
                 sleep 10
-                curl http://localhost:5000
+                curl http://localhost:$port
                 exit_status=$?
                 if [[ $exit_status == 0 ]]
                 then echo "SUCCESFULL TESTS" && docker stop $(docker ps -a -q)
