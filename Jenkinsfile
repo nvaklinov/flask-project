@@ -16,7 +16,7 @@ pipeline {
         stage("test") {
             steps {
                 sh '''
-                docker run -dit -p 5000:5000 "${image_name}:$GIT_COMMIT" || docker stop $(docker ps -a -q) && exit 1
+                docker run -dit -p 5000:5000 "${image_name}:$GIT_COMMIT" || docker stop $(docker ps -a -q)
                 curl --connect-timeout 30 --retry 300 --retry-delay 5 http://localhost:5000
                 exit_status=$?
                 if [[ $exit_status == 0]]
