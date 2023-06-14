@@ -1,3 +1,10 @@
+def Deploy(DeployEnv) {
+    sh """
+    source ../../assume_role.sh
+    helm upgrade flask helm/ --atomic --wait --install --namespace "$DeployEnv" --create-namespace --set deployment.tag="$GIT_COMMIT" --set deployment.env="$DeployEnv"
+    """
+}
+
 pipeline {
     agent any
     environment {
@@ -33,6 +40,36 @@ pipeline {
                 aws ecr get-login-password --region eu-central-1 | docker login --username AWS --password-stdin 058302395964.dkr.ecr.eu-central-1.amazonaws.com
                 docker push ${image_name}:$GIT_COMMIT
                 '''
+            }
+        }
+        stage("Deploy_Dev") {
+            when {
+                expression {
+                    env.BRANCH_NAME == "development"
+                }
+            }
+            steps {
+                Deploy("dev")
+            }
+        }
+        stage("Deploy_Prod"){
+            when {
+                expression {
+                    env.BRANCH_NAME == "master"
+                }
+            }
+            steps {
+                Deploy("prod")
+            }
+        }
+        stage("Deploy_Stage"){
+            when {
+                expression {
+                    env.BRANCH_NAME == "stage"
+                }
+            }
+            steps {
+                Deploy("stage")
             }
         }
     }
