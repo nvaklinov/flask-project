@@ -30,6 +30,6 @@ jobs:
           docker push 058302395964.dkr.ecr.eu-central-1.amazonaws.com/flaskapp:${{ github.sha }}
       - name: deploy
         run: |
-          aws eks update-kubeconfig --name flaskapp-cluster --region $AWS_DEFAULT_REGION
+          aws eks update-kubeconfig --name flaskapp-cluster --region eu-central-1
           kubectl get nodes 
 
