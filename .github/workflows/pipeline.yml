@@ -35,6 +35,4 @@ jobs:
           AWS_DEFAULT_REGION: "eu-central-1"
         run: |
           aws eks update-kubeconfig --name flaskapp-cluster --region eu-central-1
-          kubectl get nodes
-          
-
+          helm upgrade flask helm/ --install --wait --atomic --set deployment.tag=${{ github.sha }}
