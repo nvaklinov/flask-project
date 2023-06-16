@@ -1,0 +1,21 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: ecr login
+        env:
+          AWS_ACCESS_KEY_ID: ${{secrets.ACCESS_KEY}}
+          AWS_SECRET_ACCESS_KEY: ${{secrets.SECRET_KEY}}
+        run: |
+          curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+          unzip awscliv2.zip
+          ./aws/install
+          aws sts get-caller-identity
