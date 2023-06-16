@@ -7,12 +7,13 @@ on:
 
 jobs:
   build:
-    runs-on: amazon/aws-cli:2.0.19
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - name: ecr login
         env:
           AWS_ACCESS_KEY_ID: ${{secrets.ACCESS_KEY}}
           AWS_SECRET_ACCESS_KEY: ${{secrets.SECRET_KEY}}
+          AWS_DEFAULT_REGION: "eu-central-1"
         run: |
           aws sts get-caller-identity
