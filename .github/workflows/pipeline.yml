@@ -18,17 +18,18 @@ jobs:
         run: |
           aws ecr get-login-password --region eu-central-1 | docker login --username AWS --password-stdin 058302395964.dkr.ecr.eu-central-1.amazonaws.com
       - name: build
-          needs: login
         run: |
           docker build . -t 058302395964.dkr.ecr.eu-central-1.amazonaws.com/flaskapp:${{ github.sha }}
       - name: test
-          needs: build
         run: |
           docker run -d -p 5000:5000 058302395964.dkr.ecr.eu-central-1.amazonaws.com/flaskapp:${{ github.sha }}
           sleep 10
           curl http://localhost:5000 && echo "tests are succesfull" || echo "test failed"
-      - name: Docker Push
-          needs: test
+      - name: push
         run: |
           docker push 058302395964.dkr.ecr.eu-central-1.amazonaws.com/flaskapp:${{ github.sha }}
+      - name: deploy
+        run: |
+          aws eks update-kubeconfig --name flaskapp-cluster --region $AWS_DEFAULT_REGION
+          kubectl get nodes 
 
