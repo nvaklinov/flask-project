@@ -26,6 +26,7 @@ jobs:
           sleep 10
           curl http://localhost:5000 && echo "tests are succesfull" || echo "test failed"
       - name: Docker Push
+          needs: Test
         run: |
           docker push 058302395964.dkr.ecr.eu-central-1.amazonaws.com/flaskapp:${{ github.sha }}
 
