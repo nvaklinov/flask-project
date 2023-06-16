@@ -10,23 +10,25 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: ecr login
+      - name: login
         env:
           AWS_ACCESS_KEY_ID: ${{secrets.ACCESS_KEY}}
           AWS_SECRET_ACCESS_KEY: ${{secrets.SECRET_KEY}}
           AWS_DEFAULT_REGION: "eu-central-1"
         run: |
           aws ecr get-login-password --region eu-central-1 | docker login --username AWS --password-stdin 058302395964.dkr.ecr.eu-central-1.amazonaws.com
-      - name: Build Docker Image
+      - name: build
+          needs: login
         run: |
           docker build . -t 058302395964.dkr.ecr.eu-central-1.amazonaws.com/flaskapp:${{ github.sha }}
-      - name: Test
+      - name: test
+          needs: build
         run: |
           docker run -d -p 5000:5000 058302395964.dkr.ecr.eu-central-1.amazonaws.com/flaskapp:${{ github.sha }}
           sleep 10
           curl http://localhost:5000 && echo "tests are succesfull" || echo "test failed"
       - name: Docker Push
-          needs: Test
+          needs: test
         run: |
           docker push 058302395964.dkr.ecr.eu-central-1.amazonaws.com/flaskapp:${{ github.sha }}
 
