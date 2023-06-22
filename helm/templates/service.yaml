@@ -3,11 +3,9 @@ kind: Service
 metadata:
   name: "{{ .Values.deployment.name }}-svc"
 spec:
-  selector:
-    app: {{ .Values.deployment.name }}
   ports:
     - protocol: TCP
       port: {{ .Values.deployment.port }}
-      targetPort: {{ .Values.deployment.port }}
-   #   nodePort: {{ .Values.service.nodeport }}
- # type: NodePort
+      targetPort : {{ .Values.deployment.port }}
+  selector:
+      app : {{ .Values.deployment.name }}

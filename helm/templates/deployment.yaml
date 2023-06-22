@@ -15,12 +15,25 @@ spec:
         app: {{ .Values.deployment.name }}
     spec:
       containers:
-      - name: {{ .Values.deployment.name }}
-        image: "{{ .Values.deployment.image }}:{{ .Values.deployment.tag }}" 
-        ports:
-        - containerPort: {{ .Values.deployment.port }} 
-        envFrom:
-            - configMapRef:
-                  name: "{{ .Values.deployment.name }}-config" 
-      imagePullSecrets:
-      - name: regcred
+        - name: {{ .Values.deployment.name }}
+          image: "{{ .Values.deployment.image }}:{{ .Values.deployment.tag }}"
+          imagePullPolicy: Always
+          ports:
+          - containerPort : {{ .Values.deployment.port }}
+          envFrom:
+              - configMapRef:
+                    name: "{{ .Values.deployment.name }}-config"
+          volumeMounts:
+            - name: secrets
+              mountPath: "/app/secrets"
+              readOnly: true 
+          env:
+            - name: {{ .Values.deployment.name }}
+              value: myapp/{{ .Values.deployment.env }}              
+      volumes:
+        - name: secrets
+          secret:
+            secretName: env
+            items:
+            - key: flask
+              path: myapp/{{ .Values.deployment.env }}

@@ -8,9 +8,9 @@ def Deploy(DeployEnv) {
 pipeline {
     agent any
     environment {
-        image_name="058302395964.dkr.ecr.eu-central-1.amazonaws.com/flaskapp"
+        image_name="699509601278.dkr.ecr.eu-central-1.amazonaws.com/flask"
         region="eu-central-1"
-        account="058302395964"
+        account="699509601278"
     }
     stages {
         stage("Build") {
@@ -23,10 +23,9 @@ pipeline {
         stage("test") {
             steps {
                 sh '''
-                port=$(shuf -i 2000-5000 -n 1)
-                docker run -dit -p $port:5000 "${image_name}:$GIT_COMMIT" || docker stop $(docker ps -a -q)
+                docker run -dit -p 5000:5000 "${image_name}:$GIT_COMMIT" || docker stop $(docker ps -a -q)
                 sleep 10
-                curl http://localhost:$port
+                curl http://localhost:5000
                 exit_status=$?
                 if [[ $exit_status == 0 ]]
                 then echo "SUCCESFULL TESTS" && docker stop $(docker ps -a -q)
@@ -38,7 +37,7 @@ pipeline {
         stage("Push") {
             steps {
                 sh '''
-                aws ecr get-login-password --region eu-central-1 | docker login --username AWS --password-stdin 058302395964.dkr.ecr.eu-central-1.amazonaws.com
+                aws ecr get-login-password --region eu-central-1 | docker login --username AWS --password-stdin 699509601278.dkr.ecr.eu-central-1.amazonaws.com
                 docker push ${image_name}:$GIT_COMMIT
                 '''
             }
