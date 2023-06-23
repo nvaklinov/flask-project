@@ -1,6 +1,6 @@
-def Deploy(DeployEnv) {
+def Deploy(DeployEnv){
     sh """
-    source ../../assume_role.sh
+    aws eks update-kubeconfig --region eu-central-1 --name cluster
     helm upgrade flask helm/ --atomic --wait --install --namespace "$DeployEnv" --create-namespace --set deployment.tag="$GIT_COMMIT" --set deployment.env="$DeployEnv"
     """
 }
@@ -8,9 +8,9 @@ def Deploy(DeployEnv) {
 pipeline {
     agent any
     environment {
-        image_name="058302395964.dkr.ecr.eu-central-1.amazonaws.com/flaskapp"
+        image_name="366915744137.dkr.ecr.eu-central-1.amazonaws.com/ecr"
         region="eu-central-1"
-        account="058302395964"
+        account="366915744137"
     }
     stages {
         stage("Build") {
@@ -23,10 +23,9 @@ pipeline {
         stage("test") {
             steps {
                 sh '''
-                port=$(shuf -i 2000-5000 -n 1)
-                docker run -dit -p $port:5000 "${image_name}:$GIT_COMMIT" || docker stop $(docker ps -a -q)
+                docker run -dit -p 80:80 "${image_name}:$GIT_COMMIT" || docker stop $(docker ps -a -q)
                 sleep 10
-                curl http://localhost:$port
+                curl http://localhost:80
                 exit_status=$?
                 if [[ $exit_status == 0 ]]
                 then echo "SUCCESFULL TESTS" && docker stop $(docker ps -a -q)
@@ -38,7 +37,7 @@ pipeline {
         stage("Push") {
             steps {
                 sh '''
-                aws ecr get-login-password --region eu-central-1 | docker login --username AWS --password-stdin 058302395964.dkr.ecr.eu-central-1.amazonaws.com
+                aws ecr get-login-password --region eu-central-1 | docker login --username AWS --password-stdin 366915744137.dkr.ecr.eu-central-1.amazonaws.com
                 docker push ${image_name}:$GIT_COMMIT
                 '''
             }
@@ -56,11 +55,11 @@ pipeline {
         stage("Deploy_Prod"){
             when {
                 expression {
-                    env.BRANCH_NAME == "master"
+                    env.BRANCH_NAME == "main"
                 }
             }
             steps {
-                Deploy("prod")
+                Deploy("default")
             }
         }
         stage("Deploy_Stage"){

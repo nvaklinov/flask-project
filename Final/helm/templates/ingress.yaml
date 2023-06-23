@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: "ingress"
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: acme-issuer
+spec:
+  rules:
+    - host: "andydim.click"
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: "{{ .Values.deployment.name }}-service"
+                port:
+                  number: {{ .Values.deployment.port }}
+  tls:
+    - hosts:
+        - andydim.click
+      secretName: myingress-cert
