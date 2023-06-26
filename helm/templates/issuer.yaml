@@ -4,7 +4,7 @@ metadata:
   name: acme-issuer
 spec:
   acme:
-    email: nikolay.s.vaklinov@gmail.com
+    email: vaklinov81@gmail.com
     server: https://acme-v02.api.letsencrypt.org/directory
     privateKeySecretRef:
       name: private-key
@@ -14,4 +14,4 @@ spec:
           - {{ .Values.deployment.domain }}
       dns01:
         route53:
-          region: eu-central-1
+          region: us-east-1

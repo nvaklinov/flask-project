@@ -1,12 +1,11 @@
 deployment:
-    name: flaskapp
-    image: 058302395964.dkr.ecr.eu-central-1.amazonaws.com/flaskapp
-    tag: latest
-    replicas: 1
-    port: 5000
-    env: dev
-    domain: nikvak.com
+  name: flask
+  image: 691662309979.dkr.ecr.us-east-1.amazonaws.com/flask
+  tag: latest
+  port: 5000
+  replicas: 1
+  env: dev
+  domain: vaklinov.online
 
 service:
-   port: 80
-   nodeport: 30008
+  port: 80

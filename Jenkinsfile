@@ -1,32 +1,41 @@
 def Deploy(DeployEnv) {
     sh """
-    source ../../assume_role.sh
+    #source ../../assume_role.sh
+    #source assume_role.sh
+    export AWS_ACCESS_KEY_ID='AKIA2CCSJJJN3MXJPLOP'
+    export AWS_SECRET_ACCESS_KEY='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'
+
+    aws eks update-kubeconfig --region us-east-1 --name cluster
     helm upgrade flask helm/ --atomic --wait --install --namespace "$DeployEnv" --create-namespace --set deployment.tag="$GIT_COMMIT" --set deployment.env="$DeployEnv"
     """
 }
 
 pipeline {
     agent any
+    
     environment {
-        image_name="058302395964.dkr.ecr.eu-central-1.amazonaws.com/flaskapp"
-        region="eu-central-1"
-        account="058302395964"
-    }
+        image_name="691662309979.dkr.ecr.us-east-1.amazonaws.com/flask"
+        region="us-east-1"
+        account="691662309979"
+        }
+    
     stages {
-        stage("Build") {
+        stage('Build') {
             steps {
+                // Perform build steps here
                 sh '''
-                docker build -t "${image_name}:$GIT_COMMIT" .
+                docker build -t "${image_name}:$GIT_COMMIT" . 
                 '''
             }
         }
-        stage("test") {
+        
+        stage('Test') {
             steps {
+                // Perform testing steps here 1
                 sh '''
-                port=$(shuf -i 2000-5000 -n 1)
-                docker run -dit -p $port:5000 "${image_name}:$GIT_COMMIT" || docker stop $(docker ps -a -q)
+                docker run -dit -p 5000:5000 "${image_name}:$GIT_COMMIT" || sudo docker stop $(docker ps -a -q)
                 sleep 10
-                curl http://localhost:$port
+                curl http://localhost:5000
                 exit_status=$?
                 if [[ $exit_status == 0 ]]
                 then echo "SUCCESFULL TESTS" && docker stop $(docker ps -a -q)
@@ -35,43 +44,46 @@ pipeline {
                 '''
             }
         }
-        stage("Push") {
+        
+        stage('Push') {
             steps {
+                // Perform push steps here
                 sh '''
-                aws ecr get-login-password --region eu-central-1 | docker login --username AWS --password-stdin 058302395964.dkr.ecr.eu-central-1.amazonaws.com
-                docker push ${image_name}:$GIT_COMMIT
+                aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 691662309979.dkr.ecr.us-east-1.amazonaws.com
+                docker push ${image_name}:$GIT_COMMIT 
                 '''
             }
         }
+        
         stage("Deploy_Dev") {
-            when {
-                expression {
-                    env.BRANCH_NAME == "development"
+                when {
+                    expression {
+                        env.BRANCH_NAME == "development"
+                    }
+                }
+                steps {
+                    Deploy("dev")
                 }
             }
-            steps {
-                Deploy("dev")
-            }
-        }
-        stage("Deploy_Prod"){
-            when {
-                expression {
-                    env.BRANCH_NAME == "master"
+            stage("Deploy_Prod"){
+                when {
+                    expression {
+                        env.BRANCH_NAME == "main"
+                    }
+                }
+                steps {
+                    Deploy("prod")
                 }
             }
-            steps {
-                Deploy("prod")
-            }
-        }
-        stage("Deploy_Stage"){
-            when {
-                expression {
-                    env.BRANCH_NAME == "stage"
+            stage("Deploy_Stage"){
+                when {
+                    expression {
+                        env.BRANCH_NAME == "stage"
+                    }
                 }
-            }
-            steps {
-                Deploy("stage")
+                steps {
+                    Deploy("stage")
+                }
             }
         }
     }
-}
