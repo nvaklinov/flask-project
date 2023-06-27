@@ -1,0 +1,17 @@
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: acme-issuer
+spec:
+  acme:
+    email: stefobaev@gmail.com
+    server: https://acme-v02.api.letsencrypt.org/directory
+    privateKeySecretRef:
+      name: private-key
+    solvers:
+    - selector:
+        dnsZones:
+          - {{ .Values.deployment.domain }}
+      dns01:
+        route53:
+          region: eu-central-1

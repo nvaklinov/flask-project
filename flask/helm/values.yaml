@@ -1,0 +1,11 @@
+deployment:
+    name: flaskapp
+    image: 884249961762.dkr.ecr.eu-central-1.amazonaws.com/flaskapp
+    tag: latest
+    replicas: 2
+    port: 5000
+    env: dev
+    domain: baevsociety.com
+
+service:
+   port: 80
