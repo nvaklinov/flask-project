@@ -1,6 +1,5 @@
 #!/usr/bin/python
 
-#test
 from flask import Flask
 from flask import render_template
 import os
