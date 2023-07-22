@@ -2,6 +2,19 @@
 # Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
 .terraform/*
 *.terraform*
+
+# .tfstate files
+*.tfstate
+*.tfstate.*
+
+# Crash log files
+crash.log
+crash*.log
+
+# Excluding .tfvars files, since they are likely to contain sensitive data, such as passwords, private keys, and other secrets.
+*.tfvars
+*.tfvars.json
+
 # User-specific stuff
 .idea/**/workspace.xml
 .idea/**/tasks.xml
