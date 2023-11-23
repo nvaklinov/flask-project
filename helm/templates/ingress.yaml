@@ -8,9 +8,9 @@ metadata:
 spec:
   rules:
     {{- if eq .Values.deployment.env "prod" }}
-  - host: "nikvak.com"
+  - host: {{ .Values.deployment.domain }}
     {{- else }}
-  - host: "{{ .Values.deployment.env }}.nikvak.com"
+  - host: "{{ .Values.deployment.env }}.{{ .Values.deployment.domain }}"
     {{ end }}
     http:
       paths:
@@ -29,4 +29,3 @@ spec:
         -  "{{ .Values.deployment.env }}.nikvak.com"
         {{ end }}
       secretName: myingress-cert
-

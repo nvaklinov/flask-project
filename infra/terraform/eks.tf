@@ -13,7 +13,7 @@ module "eks" {
     }
   }
   eks_managed_node_group_defaults = {
-    disk_size = 50
+    disk_size = 20
   }
   cluster_addons = {
     coredns = {
@@ -57,37 +57,37 @@ module "eks" {
 }
 
 #module "load_balancer_controller_irsa_role" {
-#  depends_on = [module.eks]
-#  source     = "terraform-aws-modules/iam/aws//modules/iam-role-for-service-accounts-eks"
-#  version    = "v5.20.0"
-
-#  role_name                              = "load-balancer-controller"
-#  attach_load_balancer_controller_policy = true
-
-#  oidc_providers = {
-#    ex = {
-#      provider_arn               = module.eks.oidc_provider_arn
-#      namespace_service_accounts = ["kube-system:aws-load-balancer-controller"]
-#    }
-#  }
-#}
-
-#module "efs_csi_irsa_role" {
-#  source     = "terraform-aws-modules/iam/aws//modules/iam-role-for-service-accounts-eks"
-#  depends_on = [module.eks]
-#  version    = "v5.19.0"
+##  depends_on = [module.eks]
+##  source     = "terraform-aws-modules/iam/aws//modules/iam-role-for-service-accounts-eks"
+##  version    = "v5.20.0"
 #
-#  role_name             = "efs-csi"
-#  attach_efs_csi_policy = true
+##  role_name                              = "load-balancer-controller"
+##  attach_load_balancer_controller_policy = true
 #
-#  oidc_providers = {
-#    ex = {
-#      provider_arn               = module.eks.oidc_provider_arn
-#      namespace_service_accounts = ["kube-system:efs-csi"]
-#    }
-#  }
-#}
-
+##  oidc_providers = {
+##    ex = {
+##      provider_arn               = module.eks.oidc_provider_arn
+##      namespace_service_accounts = ["kube-system:aws-load-balancer-controller"]
+##    }
+##  }
+##}
+#
+##module "efs_csi_irsa_role" {
+##  source     = "terraform-aws-modules/iam/aws//modules/iam-role-for-service-accounts-eks"
+##  depends_on = [module.eks]
+##  version    = "v5.19.0"
+##
+##  role_name             = "efs-csi"
+##  attach_efs_csi_policy = true
+##
+##  oidc_providers = {
+##    ex = {
+##      provider_arn               = module.eks.oidc_provider_arn
+##      namespace_service_accounts = ["kube-system:efs-csi"]
+##    }
+##  }
+##}
+#
 module "cert_manager_irsa_role" {
   source     = "terraform-aws-modules/iam/aws//modules/iam-role-for-service-accounts-eks"
   depends_on = [module.eks]
@@ -103,7 +103,7 @@ module "cert_manager_irsa_role" {
     }
   }
 }
-
+#
 module "external_dns_irsa_role" {
   source     = "terraform-aws-modules/iam/aws//modules/iam-role-for-service-accounts-eks"
   depends_on = [module.eks]
@@ -121,19 +121,19 @@ module "external_dns_irsa_role" {
   }
 }
 
-#module "external_secrets_irsa_role" {
-#  source     = "terraform-aws-modules/iam/aws//modules/iam-role-for-service-accounts-eks"
-#  depends_on = [module.eks]
-#  version    = "v5.11.2"
+module "external_secrets_irsa_role" {
+  source     = "terraform-aws-modules/iam/aws//modules/iam-role-for-service-accounts-eks"
+  depends_on = [module.eks]
+  version    = "v5.11.2"
 
-##  role_name                             = "external-secrets"
-#  attach_external_secrets_policy        = true
-#  external_secrets_secrets_manager_arns = ["arn:aws:secretsmanager:*:*:secret:*"]
+  role_name                             = "external-secrets"
+  attach_external_secrets_policy        = true
+  external_secrets_secrets_manager_arns = ["arn:aws:secretsmanager:*:*:secret:*"]
 
-#  oidc_providers = {
-#    ex = {
-#      provider_arn               = module.eks.oidc_provider_arn
-#      namespace_service_accounts = ["kube-system:external-secret"]
-#    }
-#  }
-#}
+  oidc_providers = {
+    ex = {
+      provider_arn               = module.eks.oidc_provider_arn
+      namespace_service_accounts = ["kube-system:external-secret"]
+    }
+  }
+}
