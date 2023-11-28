@@ -22,3 +22,6 @@ spec:
         envFrom:
             - secretRef:
                   name: db-secret
+        envFrom:
+            - ConfigMapRef:
+                  name: config 
