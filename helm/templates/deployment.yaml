@@ -19,6 +19,9 @@ spec:
         image: "{{ .Values.deployment.image }}:{{ .Values.deployment.tag }}" 
         ports:
         - containerPort: {{ .Values.deployment.port }}
+        env:
+        - name: ENV
+          value: {{ .Values.deployment.env }}
         envFrom:
             - secretRef:
                   name: db-secret 
