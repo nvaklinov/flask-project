@@ -21,7 +21,4 @@ spec:
         - containerPort: {{ .Values.deployment.port }}
         envFrom:
             - secretRef:
-                  name: db-secret
-        envFrom:
-            - ConfigMapRef:
-                  name: config 
+                  name: db-secret 
