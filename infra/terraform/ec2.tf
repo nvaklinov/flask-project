@@ -1,13 +1,5 @@
-resource "aws_network_interface" "interface" {
-  depends_on      = [module.vpc]
-  subnet_id       = element(module.vpc.public_subnets, 0)
-  private_ips     = [cidrhost(element(local.public_subnets, 0), 5)]
-  security_groups = [aws_security_group.allow_tls.id]
-}
-
-
 resource "aws_instance" "ec2" {
-  depends_on    = [aws_network_interface.interface, module.eks]
+  depends_on    = [module.eks]
   ami           = data.aws_ami.amazon-linux-2.id
   instance_type = local.instance_type
   user_data     = <<EOF
@@ -49,12 +41,7 @@ resource "aws_instance" "ec2" {
         usermod -s /bin/bash jenkins
         echo -e "123\n123" | sudo passwd jenkins
     EOF
-
   iam_instance_profile = aws_iam_instance_profile.profile.name
-  network_interface {
-    network_interface_id = aws_network_interface.interface.id
-    device_index         = 0
-  }
   tags = {
     Name = "Jenkins"
   }
