@@ -1,3 +1,11 @@
+def Deploy(DeployEnv) {
+    sh """
+    aws eks update-kubeconfig --name nikdevops-cluster --region $region
+    source ../../assume_role.sh
+    helm upgrade flask helm/ --install --atomic --wait --create-namespace --namespace $DeployEnv --set deployment.tag=$GIT_COMMIT --set deployment.env=$DeployEnv
+    """
+}
+
 pipeline {
     agent any
 
@@ -37,13 +45,34 @@ pipeline {
                 ''' 
             }
         }
-        stage ("Deploy") {
+        stage ("Deploy_Dev") {
+            when {
+                expression {
+                    env.BRANCH_NAME == "dev"
+                }
+            }
             steps {
-                sh '''
-                aws eks update-kubeconfig --name nikdevops-cluster --region $region
-                source ../../assume_role.sh
-                helm upgrade flask helm/ --install --wait --atomic --set deployment.tag=$GIT_COMMIT
-                '''
+                Deploy("dev")
+            }
+        }
+        stage  ("Deploy_Prod") {
+            when {
+                expression {
+                    env.BRANCH_NAME == "master"
+                }
+            }
+            steps {
+                Deploy("prod")
+            }
+        }
+        stage ("Deploy_Stage") {
+            when {
+                expression {
+                    env.BRANCH_NAME == "stage"
+                }
+            }
+            steps {
+                Deploy ("stage")
             }
         }
     }
