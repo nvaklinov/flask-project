@@ -19,9 +19,9 @@ EOF
 #data "aws_iam_policy" "admin_access" {
 #  arn = "arn:aws:iam::aws:policy/AdministratorAccess"
 #}
-#
+
 #resource "aws_iam_role_policy_attachment" "admin-role-policy-attach" {
-#  role       = aws_iam_role.role.name
+#  role       = aws_iam_role.role2.name
 #  policy_arn = data.aws_iam_policy.admin_access.arn
 #}
 

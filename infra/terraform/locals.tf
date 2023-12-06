@@ -1,5 +1,5 @@
 locals {
-  name   = "nikpragm"
+  name   = "nikdevops"
   my_ip  = "0.0.0.0/0"
   region = "eu-central-1"
   tags = {
