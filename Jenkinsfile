@@ -9,7 +9,7 @@ pipeline {
         stage ("Build") {
             steps {
                 sh '''
-                  docker build -t "${image_name}:$GIT_COMMIT .
+                  docker build -t $image_name:$GIT_COMMIT .
                 '''
             }
         }
