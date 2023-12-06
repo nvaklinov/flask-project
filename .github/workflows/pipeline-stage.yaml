@@ -3,7 +3,7 @@ name: Build and Deploy
 on:
   push:
     branches:
-       - master
+       - stage
 
 jobs:
   build:
@@ -35,4 +35,4 @@ jobs:
             AWS_DEFAULT_REGION: "eu-central-1"
          run: |
            aws eks update-kubeconfig --name nikdevops-cluster --region $AWS_DEFAULT_REGION
-           helm upgrade flask helm/ --install --wait --create-namespace --namespace prod --atomic --set deployment.tag=${{ github.sha }} --set deployment.env=prod
+           helm upgrade flask helm/ --install --wait --create-namespace --namespace stage --atomic --set deployment.tag=${{ github.sha }} --set deployment.env=stage
